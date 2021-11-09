@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <HelloWorld msg="Welcome to My Local Storage"/>
+    <button @click="sayHi()">helo hai hai</button>
       <h1>our new catie: {{ newCat }}</h1>
       <input type="text" v-model="newCat">
       <button type="button" @click="addCat()">add cat</button>
@@ -14,6 +15,7 @@
 
 <script>
 import HelloWorld from '../components/HelloWorld.vue'
+import cogoToast from 'cogo-toast';
 
 export default {
   name: 'Home',
@@ -22,30 +24,64 @@ export default {
   },
   data() {
     return {
+      cats: [],
       catList: [],
       newCat: ''
     }
   },
+  // mounted() {
+  //   if (localStorage.getItem('cats')) {
+  //     try {
+  //       this.cats = JSON.parse(localStorage.getItem('cats'));
+  //     } catch(e) {
+  //       localStorage.removeItem('cats');
+  //     }
+  //   }
+  // },
+  // methods: {
+  //   addCat() {
+  //     this.cats.push(this.newCat);
+  //     this.newCat = '';
+  //     this.saveCats();
+  //   },
+  //   saveCats() {
+  //     const parsed = JSON.stringify(this.cats);
+  //     localStorage.setItem('cats', parsed);
+  //       cogoToast.success(
+  //       'Add to Cart Success',
+  //       {
+  //         position: 'bottom-right',
+  //         heading: 'Success',
+  //       }
+  //     )
+  //   }
+  // }
   mounted() {
-    if(localStorage.getItem('myCats')){
+    if (localStorage.getItem('cats')) {
       try {
-        this.catList = JSON.parse(localStorage.getItem('myCats'))
-        this.newCat = ''
-      }catch(error){
-        this.newCat = ''
-        localStorage.removeItem('myCats')
+        this.catList = JSON.parse(localStorage.getItem('cats'));
+      } catch(e) {
+        localStorage.removeItem('cats');
       }
     }
   },
   methods: {
     addCat() {
-      if(this.newCat != ''){
-        this.catList.push(this.newCat)
-        console.log(this.myCats)
-        this.newCat = ''
-        this.saveCats()
-      }
+      this.catList.push(this.newCat);
+      this.newCat = '';
+      this.saveCats();
     },
+    saveCats() {
+      const parsed = JSON.stringify(this.catList);
+      localStorage.setItem('cats', parsed);
+        cogoToast.success(
+        'Add to Cart Success',
+        {
+          position: 'bottom-right',
+          heading: 'Success',
+        }
+      )
+    }
   }
 }
 </script>

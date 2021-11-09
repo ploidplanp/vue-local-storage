@@ -2,7 +2,7 @@
   <div id="app">
     <h1>our catie</h1>
     <hr>
-    <button class="buttonWarning" @click="clearCat()">Clear</button>
+    <!-- <button class="buttonWarning" @click="clearCat()">Clear</button> -->
     <div v-for="(cat, n) in myCatList" :key="n">
       <p>
           <span class="cat">{{ cat }}</span>
@@ -22,11 +22,14 @@ export default {
     }
   },
   mounted() {
-    if(localStorage.getItem('myCats')){
+    if(localStorage.getItem('cats')){
       try {
-        this.myCatList = JSON.parse(localStorage.getItem('myCats'))
+        this.myCatList = JSON.parse(localStorage.getItem('cats'))
+        console.log(localStorage.getItem('cats'))
+        this.newCat = ''
       }catch(error){
-        localStorage.removeItem('myCats')
+        this.newCat = ''
+        localStorage.removeItem('cats')
       }
     }
   },
@@ -38,11 +41,8 @@ export default {
     saveCats(){
       this.newCat = ''
       const parsed = JSON.stringify(this.myCatList)
-      localStorage.setItem('myCats', parsed)
+      localStorage.setItem('cats', parsed)
     },
-    clearCat(){
-      localStorage.clear()
-    }
   }
 }
 </script>
